@@ -3,26 +3,17 @@ var express = require('express');
 var routes = function(Book) {
 
   var bookRouter = express.Router();
+  var bookController = require('../controllers/bookController')(Book);
 
   bookRouter.route('/')
-  .get(function(request, response) {
-    Book.find(function(err, books){
-      if(err) {
-        response.status(500).send(err);
-      } else {
-          response.json(books);
-      }
-    });
-  });
+  .get(bookController.list)
+  .post(bookController.create);
 
-  .post(function(request, response) {
-    var book = new Book(req.body);
-    book.save();
-    res.status(201).send(book);
-  })
+  bookRouter.route('/:bookId')
+  .get(bookController.find);
 
   return bookRouter;
 
-};
+}
 
 module.exports = routes;
