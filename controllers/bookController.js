@@ -21,11 +21,31 @@ var bookController = function(Book){
   }
 
   var find = function(request, response) {
-    Book.findById(request.params.bookId, function(err, book) {
+    response.json(request.book);
+  }
+
+  var update = function(request, response) {
+    if(request.body._id) {
+      delete request.body._id;
+    }
+    for(var p in request.body) {
+      request.book[p] = request.body[p];
+    }
+    request.book.save(function(err) {
       if(err) {
         response.status(500).send(err);
       } else {
-        response.json(book);
+        response.json(request.book);
+      }
+    });
+  }
+
+  var remove = function(request, response) {
+    request.book.remove(function(err) {
+      if(err) {
+        response.status(500).send(err);
+      } else {
+        response.status(204).send('Book deleted');
       }
     });
   }
@@ -33,7 +53,9 @@ var bookController = function(Book){
   return {
     create: post,
     list: get,
-    find: find
+    find: find,
+    update: update,
+    remove: remove
   }
 
 }
