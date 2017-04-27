@@ -15,6 +15,9 @@
     "mongoose": "^4.9.5"
   },
   "devDependencies": {
-    "gulp-nodemon": "^2.2.1"
+    "gulp-mocha": "^4.3.1",
+    "gulp-nodemon": "^2.2.1",
+    "should": "^11.2.1",
+    "sinon": "^2.1.0"
   }
 }
